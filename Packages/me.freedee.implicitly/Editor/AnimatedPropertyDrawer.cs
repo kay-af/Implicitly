@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Implicitly.Editor
 {
-    [CustomPropertyDrawer(typeof(AnimatedProperty<>), true)]
+    [CustomPropertyDrawer(typeof(Animated<>), true)]
     public class AnimatedPropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

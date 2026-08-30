@@ -25,7 +25,7 @@ namespace Implicitly
                 return interpolator;
             }
 
-            throw new KeyNotFoundException($"Interpolator not registered for type {type.Name}");
+            throw new KeyNotFoundException($"Interpolator not registered for type: {type.Name}");
         }
 
         public static IInterpolator<T> Get<T>() => (IInterpolator<T>)Get(typeof(T));

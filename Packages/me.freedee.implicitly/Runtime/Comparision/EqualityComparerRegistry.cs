@@ -26,7 +26,9 @@ namespace Implicitly
                 return comparer;
             }
 
-            throw new KeyNotFoundException($"EqualityComparer not registered for type {type.Name}");
+            throw new KeyNotFoundException(
+                $"EqualityComparer not registered for type: {type.Name}"
+            );
         }
 
         public static IEqualityComparer<T> Get<T>() => (IEqualityComparer<T>)Get(typeof(T));
