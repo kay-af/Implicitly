@@ -1,0 +1,9 @@
+{
+    "name": "Implicitly.Editor",
+    "references": [
+        "Implicitly"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "me.freedee.implicitly",
+  "version": "1.0.0",
+  "displayName": "Implicitly",
+  "description": "Implicitly is a package that allows you to create implicit animations in Unity.",
+  "author": {
+    "name": "Afridi Kayal",
+    "email": "kayalafridi@gmail.com"
+  },
+  "keywords": [
+    "implicit",
+    "animation",
+    "unity"
+  ],
+  "dependencies": {
+    "com.unity.ugui": "1.0.0"
+  }
+}
