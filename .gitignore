@@ -104,3 +104,27 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Mac Related
+.DS_Store
+
+# =========================
+# DocFX generated files
+# =========================
+
+# Site output
+_site/
+
+# API metadata
+api/
+
+# Temp/cache
+.temp/
+.cache/
+obj/
+
+# Manifest files
+*.manifest
+
+# DocFX logs
+*.log
