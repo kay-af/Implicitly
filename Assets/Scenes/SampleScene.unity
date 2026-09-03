@@ -350,9 +350,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1210959420}
   - component: {fileID: 1210959419}
+  - component: {fileID: 1210959422}
   - component: {fileID: 1210959421}
   m_Layer: 0
-  m_Name: JetpackBoy
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,7 +427,7 @@ Transform:
   m_GameObject: {fileID: 1210959418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -444,11 +445,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbaac1c76a334607908b9d3533c231a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Implicitly::Implicitly.AnimatedVector2Behaviour
-  m_autoInitialize: 0
-  m_currentValue: {x: 0, y: 0}
-  m_targetValue: {x: 25, y: 25}
+  m_autoInitialize: 1
+  m_currentValue: {x: 0, y: -3}
+  m_targetValue: {x: 0, y: 3}
   m_easingMode: 0
-  m_standardEasingType: 2
+  m_standardEasingType: 32
   m_customEasing:
     m_curve:
       serializedVersion: 2
@@ -480,7 +481,19 @@ MonoBehaviour:
   m_useUnscaledTime: 0
   m_onCurrentValueChange:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1210959422}
+        m_TargetAssemblyTypeName: Implicitly.Samples.PlayerController, Assembly-CSharp
+        m_MethodName: SetPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_onAnimationStart:
     m_PersistentCalls:
       m_Calls: []
@@ -490,6 +503,18 @@ MonoBehaviour:
   m_onAnimationEnd:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1210959422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210959418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df820d61320c742db81b65f09d6be4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Implicitly.Samples.PlayerController
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
