@@ -9,6 +9,7 @@ namespace Implicitly.Editor
         private const int k_sectionBoxTitleSpacing = 4;
         private const int k_spacing = 8;
         private const int k_buttonHeight = 24;
+        private const int k_compactButtonWidth = 22;
         private static readonly Color k_positiveColor = new(0.25f, 1f, 0.25f);
         private static readonly Color k_negativeColor = new(1f, 0.25f, 0.25f);
 
@@ -42,5 +43,12 @@ namespace Implicitly.Editor
 
         public static bool Button(string label) =>
             GUILayout.Button(label, GUILayout.Height(k_buttonHeight));
+
+        public static bool CompactButton(string label, string tooltip) =>
+            GUILayout.Button(
+                new GUIContent(label, tooltip),
+                GUILayout.Width(k_compactButtonWidth),
+                GUILayout.Height(EditorGUIUtility.singleLineHeight)
+            );
     }
 }

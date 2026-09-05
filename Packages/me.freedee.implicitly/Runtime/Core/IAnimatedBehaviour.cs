@@ -25,6 +25,7 @@ namespace Implicitly
     }
 
     public interface IAnimatedBehaviour<T> : IAnimatedBehaviour
+        where T : struct
     {
         public T CurrentValue { get; }
         public T TargetValue { get; }

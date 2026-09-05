@@ -63,25 +63,18 @@ namespace Implicitly.Editor
 
             ImplicitlyEditorUtils.DrawSpace();
 
-            ImplicitlyEditorUtils.BeginSection("Values");
-            DrawField(k_currentValueField);
-            DrawField(k_targetValueField);
-
-            if (!serializedObject.isEditingMultipleObjects)
+            if (IsValueSerializable())
             {
-                var behaviour = (IAnimatedBehaviour)target;
-                if (Application.isPlaying && behaviour.IsInitialized && behaviour.HasDifference)
-                {
-                    ImplicitlyEditorUtils.DrawSpace();
-
-                    if (ImplicitlyEditorUtils.Button(k_animateDifferenceMethodName))
-                    {
-                        ((IAnimatedBehaviour)target).AnimateDifference();
-                    }
-                }
+                DrawValuesSection();
             }
-
-            ImplicitlyEditorUtils.EndSection();
+            else
+            {
+                EditorGUILayout.HelpBox(
+                    $"The value type is not serializable, "
+                        + "so the current and target values can only be edited programmatically.",
+                    MessageType.Info
+                );
+            }
 
             ImplicitlyEditorUtils.DrawSpace();
 
@@ -130,7 +123,55 @@ namespace Implicitly.Editor
             DrawField(field);
         }
 
+        private void DrawValuesSection()
+        {
+            ImplicitlyEditorUtils.BeginSection("Values");
+
+            DrawValueField(k_currentValueField, k_targetValueField, "T", "Same as target");
+            DrawValueField(k_targetValueField, k_currentValueField, "C", "Same as current");
+
+            if (!serializedObject.isEditingMultipleObjects)
+            {
+                var behaviour = (IAnimatedBehaviour)target;
+                if (Application.isPlaying && behaviour.IsInitialized && behaviour.HasDifference)
+                {
+                    ImplicitlyEditorUtils.DrawSpace();
+
+                    if (ImplicitlyEditorUtils.Button(k_animateDifferenceMethodName))
+                    {
+                        ((IAnimatedBehaviour)target).AnimateDifference();
+                    }
+                }
+            }
+
+            ImplicitlyEditorUtils.EndSection();
+        }
+
+        private void DrawValueField(
+            string field,
+            string sourceField,
+            string buttonLabel,
+            string tooltip
+        )
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            DrawField(field);
+
+            if (ImplicitlyEditorUtils.CompactButton(buttonLabel, tooltip))
+            {
+                serializedObject.FindProperty(field).boxedValue = serializedObject
+                    .FindProperty(sourceField)
+                    .boxedValue;
+            }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
         private void DrawField(string field) =>
             EditorGUILayout.PropertyField(serializedObject.FindProperty(field), true);
+
+        private bool IsValueSerializable() =>
+            serializedObject.FindProperty(k_currentValueField) != null;
     }
 }

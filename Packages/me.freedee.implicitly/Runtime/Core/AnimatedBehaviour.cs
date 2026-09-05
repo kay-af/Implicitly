@@ -7,6 +7,7 @@ using UnityEngine.Events;
 namespace Implicitly
 {
     public abstract class AnimatedBehaviour<T> : MonoBehaviour, IAnimatedBehaviour<T>
+        where T : struct
     {
         [SerializeField]
         private bool m_autoInitialize = true;
@@ -54,6 +55,28 @@ namespace Implicitly
                 }
 
                 m_targetValue = value;
+
+                AnimateDifferenceInternal();
+            }
+        }
+
+        private IInterpolator<T> m_customInterpolator = null;
+        public IInterpolator<T> CustomInterpolator
+        {
+            get => m_customInterpolator;
+            set
+            {
+                if (CheckDestroyed())
+                {
+                    return;
+                }
+
+                if (m_customInterpolator == value)
+                {
+                    return;
+                }
+
+                m_customInterpolator = value;
 
                 AnimateDifferenceInternal();
             }
@@ -222,28 +245,6 @@ namespace Implicitly
             }
         }
 
-        private IInterpolator<T> m_customInterpolator = null;
-        public IInterpolator<T> CustomInterpolator
-        {
-            get => m_customInterpolator;
-            set
-            {
-                if (CheckDestroyed())
-                {
-                    return;
-                }
-
-                if (m_customInterpolator == value)
-                {
-                    return;
-                }
-
-                m_customInterpolator = value;
-
-                AnimateDifferenceInternal();
-            }
-        }
-
         [SerializeField]
         private UnityEvent<T> m_onCurrentValueChange;
 
@@ -275,9 +276,6 @@ namespace Implicitly
             EqualityComparerRegistry.TryGet<T>(out var comparer)
                 ? comparer
                 : EqualityComparer<T>.Default;
-
-        private float EffectiveDeltaTime =>
-            m_useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 
         public bool IsInitialized
         {
@@ -472,35 +470,40 @@ namespace Implicitly
 
         private IEnumerator CoAnimateDifference()
         {
+            var startValue = m_currentValue;
+            var endValue = m_targetValue;
+
+            var easing = EffectiveEasing;
+            var interpolator = EffectiveInterpolator;
+
+            var duration = Duration;
+            var delay = Delay;
+            var preserveDuration = PreserveDuration;
+            var useUnscaledTime = UseUnscaledTime;
+
             NotifyAnimationStart();
 
             NotifyCurrentValueChange();
 
-            if (Delay > 0f)
+            if (delay > 0f)
             {
-                yield return YieldInstructionCache.WaitForSeconds(Delay);
+                yield return YieldInstructionCache.WaitForSeconds(delay);
             }
 
             NotifyCurrentValueChange();
 
-            if (!m_preserveDuration)
+            if (!preserveDuration)
             {
                 m_activeElapsed = 0f;
             }
 
-            var startValue = m_currentValue;
-
-            while (m_activeElapsed < Duration)
+            while (m_activeElapsed < duration)
             {
-                m_activeElapsed += EffectiveDeltaTime;
+                m_activeElapsed += useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 
-                var t = m_activeElapsed / Duration;
+                var t = m_activeElapsed / duration;
 
-                m_currentValue = EffectiveInterpolator.Lerp(
-                    startValue,
-                    m_targetValue,
-                    EffectiveEasing.Ease(t)
-                );
+                m_currentValue = interpolator.Lerp(startValue, endValue, easing.Ease(t));
 
                 NotifyCurrentValueChange();
 
@@ -509,7 +512,7 @@ namespace Implicitly
 
             m_activeElapsed = 0f;
 
-            m_currentValue = m_targetValue;
+            m_currentValue = endValue;
 
             NotifyCurrentValueChange();
 
