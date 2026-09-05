@@ -503,7 +503,7 @@ namespace Implicitly
 
                 var t = m_activeElapsed / duration;
 
-                m_currentValue = interpolator.Lerp(startValue, endValue, easing.Ease(t));
+                m_currentValue = interpolator.LerpUnclamped(startValue, endValue, easing.Ease(t));
 
                 NotifyCurrentValueChange();
 

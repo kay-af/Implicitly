@@ -4,7 +4,7 @@ namespace Implicitly
 {
     public sealed class RectInterpolator : IInterpolator<Rect>
     {
-        public Rect Lerp(Rect a, Rect b, float t) =>
+        public Rect LerpUnclamped(Rect a, Rect b, float t) =>
             new(
                 Mathf.LerpUnclamped(a.x, b.x, t),
                 Mathf.LerpUnclamped(a.y, b.y, t),

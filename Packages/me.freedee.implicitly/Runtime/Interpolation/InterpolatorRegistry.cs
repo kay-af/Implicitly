@@ -77,12 +77,16 @@ namespace Implicitly
         private static void OnBeforeSceneLoad()
         {
             Register(new ColorInterpolator());
+            Register(new Color32Interpolator());
             Register(new DoubleInterpolator());
             Register(new FloatInterpolator());
             Register(new IntegerInterpolator());
             Register(new QuaternionInterpolator());
+            Register(new RectInterpolator());
             Register(new Vector2Interpolator());
+            Register(new Vector2IntInterpolator());
             Register(new Vector3Interpolator());
+            Register(new Vector3IntInterpolator());
             Register(new Vector4Interpolator());
         }
 

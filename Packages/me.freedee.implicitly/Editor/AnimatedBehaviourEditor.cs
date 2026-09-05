@@ -95,7 +95,18 @@ namespace Implicitly.Editor
             ImplicitlyEditorUtils.DrawSpace();
 
             ImplicitlyEditorUtils.BeginSection("Events");
-            DrawField(k_currentValueChangeField);
+            if (IsCurrentValueChangeSerializable())
+            {
+                DrawField(k_currentValueChangeField);
+            }
+            else
+            {
+                EditorGUILayout.HelpBox(
+                    "This is a generic event and is not shown in the inspector, "
+                        + "so it can only be subscribed to programmatically",
+                    MessageType.Info
+                );
+            }
             DrawField(k_animationStartField);
             DrawField(k_animationCancelField);
             DrawField(k_animationEndField);
@@ -173,5 +184,8 @@ namespace Implicitly.Editor
 
         private bool IsValueSerializable() =>
             serializedObject.FindProperty(k_currentValueField) != null;
+
+        private bool IsCurrentValueChangeSerializable() =>
+            serializedObject.FindProperty(k_currentValueChangeField) != null;
     }
 }

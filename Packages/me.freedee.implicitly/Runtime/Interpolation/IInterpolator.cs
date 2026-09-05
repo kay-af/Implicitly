@@ -5,6 +5,6 @@ namespace Implicitly
     public interface IInterpolator<T> : IInterpolator
         where T : struct
     {
-        public T Lerp(T a, T b, float t);
+        public T LerpUnclamped(T a, T b, float t);
     }
 }
