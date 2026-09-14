@@ -2,7 +2,7 @@ using UnityEngine.Events;
 
 namespace Implicitly
 {
-    public interface IAnimatedBehaviour
+    public interface IAnimated
     {
         public EasingMode EasingMode { get; }
         public StandardEasingType StandardEasingType { get; }
@@ -11,10 +11,8 @@ namespace Implicitly
         public float Duration { get; }
         public bool PreserveDuration { get; }
         public bool UseUnscaledTime { get; }
-        public bool IsInitialized { get; }
         public bool HasDifference { get; }
         public bool IsAnimating { get; }
-        public void Initialize();
         public void AnimateDifference();
         public void AddAnimationStartListener(UnityAction listener);
         public void RemoveAnimationStartListener(UnityAction listener);
@@ -24,7 +22,7 @@ namespace Implicitly
         public void RemoveAnimationEndListener(UnityAction listener);
     }
 
-    public interface IAnimatedBehaviour<T> : IAnimatedBehaviour
+    public interface IAnimated<T> : IAnimated
         where T : struct
     {
         public T CurrentValue { get; }

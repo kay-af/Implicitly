@@ -81,7 +81,7 @@ namespace Implicitly
             Register(new DoubleInterpolator());
             Register(new FloatInterpolator());
             Register(new IntegerInterpolator());
-            Register(new QuaternionInterpolator());
+            Register(new QuaternionSlerpInterpolator());
             Register(new RectInterpolator());
             Register(new Vector2Interpolator());
             Register(new Vector2IntInterpolator());

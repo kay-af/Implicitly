@@ -4,11 +4,10 @@ using UnityEngine;
 namespace Implicitly.Editor
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(AnimatedBehaviour<>), true)]
-    public class AnimatedBehaviourEditor : UnityEditor.Editor
+    [CustomEditor(typeof(Animated<>), true)]
+    public class AnimatedEditor : UnityEditor.Editor
     {
         private const string k_scriptField = "m_Script";
-        private const string k_autoInitializeField = "m_autoInitialize";
         private const string k_currentValueField = "m_currentValue";
         private const string k_targetValueField = "m_targetValue";
         private const string k_easingModeField = "m_easingMode";
@@ -22,7 +21,6 @@ namespace Implicitly.Editor
         private const string k_animationStartField = "m_onAnimationStart";
         private const string k_animationCancelField = "m_onAnimationCancel";
         private const string k_animationEndField = "m_onAnimationEnd";
-        private const string k_initializeMethodName = "Initialize";
         private const string k_animateDifferenceMethodName = "AnimateDifference";
 
         public override void OnInspectorGUI()
@@ -33,30 +31,14 @@ namespace Implicitly.Editor
 
             ImplicitlyEditorUtils.DrawSpace();
 
-            if (!Application.isPlaying)
-            {
-                DrawField(k_autoInitializeField);
-            }
-
             if (Application.isPlaying && !serializedObject.isEditingMultipleObjects)
             {
                 ImplicitlyEditorUtils.BeginSection("Status");
 
-                var behaviour = (IAnimatedBehaviour)target;
+                var behaviour = (IAnimated)target;
 
-                ImplicitlyEditorUtils.DrawStatus("Initialized", behaviour.IsInitialized);
                 ImplicitlyEditorUtils.DrawStatus("Animating", behaviour.IsAnimating);
                 ImplicitlyEditorUtils.DrawStatus("Has Difference", behaviour.HasDifference);
-
-                if (!behaviour.IsInitialized)
-                {
-                    ImplicitlyEditorUtils.DrawSpace();
-
-                    if (ImplicitlyEditorUtils.Button(k_initializeMethodName))
-                    {
-                        behaviour.Initialize();
-                    }
-                }
 
                 ImplicitlyEditorUtils.EndSection();
             }
@@ -143,14 +125,14 @@ namespace Implicitly.Editor
 
             if (!serializedObject.isEditingMultipleObjects)
             {
-                var behaviour = (IAnimatedBehaviour)target;
-                if (Application.isPlaying && behaviour.IsInitialized && behaviour.HasDifference)
+                var behaviour = (IAnimated)target;
+                if (Application.isPlaying && behaviour.HasDifference)
                 {
                     ImplicitlyEditorUtils.DrawSpace();
 
                     if (ImplicitlyEditorUtils.Button(k_animateDifferenceMethodName))
                     {
-                        ((IAnimatedBehaviour)target).AnimateDifference();
+                        ((IAnimated)target).AnimateDifference();
                     }
                 }
             }

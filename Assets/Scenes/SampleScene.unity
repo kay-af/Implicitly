@@ -476,12 +476,12 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfbaac1c76a334607908b9d3533c231a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Implicitly::Implicitly.AnimatedVector2Behaviour
+  m_EditorClassIdentifier: Implicitly::Implicitly.AnimatedVector2
   m_autoInitialize: 1
-  m_currentValue: {x: 0, y: 0}
-  m_targetValue: {x: 0, y: 3}
+  m_currentValue: {x: 0, y: 3}
+  m_targetValue: {x: 0, y: 10}
   m_easingMode: 0
-  m_standardEasingType: 30
+  m_standardEasingType: 0
   m_customEasing:
     m_curve:
       serializedVersion: 2
@@ -507,7 +507,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  m_delay: 1
+  m_delay: 0
   m_duration: 5
   m_preserveDuration: 1
   m_useUnscaledTime: 0

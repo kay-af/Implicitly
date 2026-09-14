@@ -6,12 +6,9 @@ using UnityEngine.Events;
 
 namespace Implicitly
 {
-    public abstract class AnimatedBehaviour<T> : MonoBehaviour, IAnimatedBehaviour<T>
+    public abstract class Animated<T> : MonoBehaviour, IAnimated<T>
         where T : struct
     {
-        [SerializeField]
-        private bool m_autoInitialize = true;
-
         [SerializeField]
         private T m_currentValue = default;
         public T CurrentValue
@@ -257,7 +254,6 @@ namespace Implicitly
         [SerializeField]
         private UnityEvent m_onAnimationEnd;
 
-        private bool m_isInitialized = false;
         private float m_activeElapsed = 0f;
         private Coroutine m_activeRoutine = null;
 
@@ -276,19 +272,6 @@ namespace Implicitly
             EqualityComparerRegistry.TryGet<T>(out var comparer)
                 ? comparer
                 : EqualityComparer<T>.Default;
-
-        public bool IsInitialized
-        {
-            get
-            {
-                if (CheckDestroyed())
-                {
-                    return false;
-                }
-
-                return m_isInitialized;
-            }
-        }
 
         public bool HasDifference
         {
@@ -316,14 +299,6 @@ namespace Implicitly
             }
         }
 
-        protected virtual void Awake()
-        {
-            if (m_autoInitialize)
-            {
-                Initialize();
-            }
-        }
-
         protected virtual void OnEnable() => AnimateDifferenceInternal();
 
         protected virtual void OnDisable() => StopActiveRoutine();
@@ -332,23 +307,6 @@ namespace Implicitly
         {
             StopActiveRoutine();
             m_onCurrentValueChange.RemoveAllListeners();
-        }
-
-        public void Initialize()
-        {
-            if (CheckDestroyed())
-            {
-                return;
-            }
-
-            if (m_isInitialized)
-            {
-                return;
-            }
-
-            m_isInitialized = true;
-
-            AnimateDifferenceInternal();
         }
 
         public void AddCurrentValueChangeListener(UnityAction<T> listener)
@@ -438,26 +396,11 @@ namespace Implicitly
                 return;
             }
 
-            if (!m_isInitialized)
-            {
-                Debug.LogWarning(
-                    "Cannot animate difference because the animated behaviour is not initialized!",
-                    this
-                );
-
-                return;
-            }
-
             AnimateDifferenceInternal();
         }
 
-        private void AnimateDifferenceInternal()
+        protected void AnimateDifferenceInternal()
         {
-            if (!m_isInitialized)
-            {
-                return;
-            }
-
             if (!HasDifference)
             {
                 return;
@@ -595,7 +538,7 @@ namespace Implicitly
             NotifyAnimationCancel();
         }
 
-        private bool CheckDestroyed()
+        protected bool CheckDestroyed()
         {
             if (this == null)
             {
