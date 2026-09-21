@@ -34,7 +34,7 @@ namespace Implicitly.Editor
 
         public static void DrawSpace() => EditorGUILayout.Space(k_spacing);
 
-        public static void DrawStatus(string label, bool value)
+        public static void DrawIndicator(string label, bool value)
         {
             var style = new GUIStyle(EditorStyles.boldLabel) { richText = true };
             style.normal.textColor = value ? k_positiveColor : k_negativeColor;

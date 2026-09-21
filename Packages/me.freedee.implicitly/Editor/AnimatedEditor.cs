@@ -37,8 +37,8 @@ namespace Implicitly.Editor
 
                 var behaviour = (IAnimated)target;
 
-                ImplicitlyEditorUtils.DrawStatus("Animating", behaviour.IsAnimating);
-                ImplicitlyEditorUtils.DrawStatus("Has Difference", behaviour.HasDifference);
+                ImplicitlyEditorUtils.DrawIndicator("Animating", behaviour.IsAnimating);
+                ImplicitlyEditorUtils.DrawIndicator("Has Difference", behaviour.HasDifference);
 
                 ImplicitlyEditorUtils.EndSection();
             }
